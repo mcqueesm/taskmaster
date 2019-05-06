@@ -152,19 +152,22 @@ exports.register_user = function(req, res, next) {
       });
       //If not, hash password and save new user in DB
     } else {
-      let hash = bcrypt.hashSync(req.body.reg_pass, 12);
-      let newUser = new User({
-        Username: req.body.reg_user,
-        Password: hash,
-        Email: req.body.reg_email,
-        First_name: req.body.reg_first,
-        Last_name: req.body.reg_last
-      });
-      newUser.save(function(err) {
-        if (err) next(err);
-        else {
-          res.render("index", { title: "Account has been created!" });
-        }
+      bcrypt.genSalt(10, function(err, salt) {
+        if (err) throw err;
+        let hash = bcrypt.hashSync(req.body.reg_pass, salt);
+        let newUser = new User({
+          Username: req.body.reg_user,
+          Password: hash,
+          Email: req.body.reg_email,
+          First_name: req.body.reg_first,
+          Last_name: req.body.reg_last
+        });
+        newUser.save(function(err) {
+          if (err) next(err);
+          else {
+            res.render("index", { title: "Account has been created!" });
+          }
+        });
       });
     }
   });
