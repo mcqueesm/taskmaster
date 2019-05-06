@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  div#main
+    h1=title
+        
+    div
+      ul.task-container
+        if (title === 'Completed Tasks')
+          li#remove-all
+            a#remove-all-link(href='/profile/removeall') Delete All
+        each task in tasks 
+          -var toggle = task.Completed ? 'true' : 'false'
+          a.task-link(id=task._id, data-completed=toggle, href='/profile/switch/'+task._id)
+           li.task-item #{task.Description} 
+        else 
+          li You don't have any tasks!
+      
+      form#add(action='/profile/add', method='post')
+        input#task-text(type='text', name='task_text')
+        input#add-btn(type='submit', value='Add Task')
+        br
+      a#logout(href='/logout') Logout
+  

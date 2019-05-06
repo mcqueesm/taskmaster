@@ -1,0 +1,35 @@
+link(rel='stylesheet', href='/stylesheets/style.css')
+
+div(id='sign-in-register-container')
+  h1 Register New User
+  br
+  ul
+    each error in errors 
+      li.errors #{error.msg } 
+  br
+  form#register(action='/register', method='post')
+    label(for='reg_user') Choose Username:
+    -var username = body.reg_user ? body.reg_user : ''
+    input#reg_user(type='text', name='reg_user', value=username)
+    br
+    label(for='reg_first') First Name:
+    -var firstname = body.reg_first ? body.reg_first : ''
+    input#reg_first(type='text', name='reg_first', value=firstname)
+    br
+    label(for='reg_last') Last Name:
+    -var lastname = body.reg_last ? body.reg_last : ''
+    input#reg_last(type='text', name='reg_last', value=lastname)
+    br
+    label(for='reg_email') Email:
+    -var email = body.reg_email ? body.reg_email : ''
+    input#reg_email(type='text', name='reg_email', value=email)
+    br
+    label(for='reg_first') Password:
+    input#reg_pass(type='password', name='reg_pass')
+    br
+    label(for='reg_verify_pass') Verify Passsword:
+    input#reg_verify_pass(type='password', name='reg_verify_pass')
+    br
+    input(type='submit', value='Register')
+    br
+  a(href='/') Sign In
